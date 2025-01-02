@@ -2,38 +2,32 @@
 //  CustomCellViewAsync.swift
 //  Tezza_Assignment
 //
-//  Created by Mahfuz  
-//
+//  Created by Mahfuz
+
 
 import SwiftUI
 import Photos
 
 struct CustomCellViewAsync: View {
     let asset: AssetItem
-    let index: Int
-    @Binding var selectedIndices: [Int]
-    //@Binding var selectedIDs: [String] // Use String for tracking unique IDs
-    @State private var image: UIImage? = nil
-        
+    let selectedIndex: Int?
+    var isSelected: Bool
+
     var body: some View {
         ZStack() {
-            if let image = image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
-                    .clipped()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(isSelected ? Color.theme.dardred : Color.clear, lineWidth: 5)
-                    )
-                    .cornerRadius(5)
-            } else {
-                ProgressView()
-            }
+            AsyncImage(asset: asset.phasset, size: CGSize(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth))
+                .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
+                .clipped()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        //.stroke(item.isSelected ? Color.red : Color.clear, lineWidth: 2)
+                        .stroke(isSelected ? Color.theme.dardred : Color.clear, lineWidth: 5)
+                )
+            //ProgressView()
+            
             HStack {
                 VStack {
-                    if let count = positionIndex {
+                    if let count = selectedIndex {
                         Text("\(count)")
                             .font(.caption)
                             .foregroundColor(.white)
@@ -72,60 +66,8 @@ struct CustomCellViewAsync: View {
             }
             .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
         }
-        .background(Color.blue )
-        .onTapGesture {
-            toggleSelection()
-        }
-        .onAppear(){
-            fetchThumbnail()
-        }
-//        .task {
-//            await fetchThumbnailAsync()
-//        }
     }
-    var isSelected: Bool {
-        selectedIndices.contains(index)
-    }
-    private func fetchThumbnail() {
-        if let cachedImage = ImageCache.shared.getImage(for: asset.phasset.localIdentifier) {
-            self.image = cachedImage
-            return
-        }
-        
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isSynchronous = false
-        options.isNetworkAccessAllowed = true // Enable fetching iCloud media
 
-        PHImageManager.default().requestImage(
-            for: asset.phasset,
-            targetSize: CGSize(width: 300, height: 300), // best size
-            contentMode: .aspectFill,
-            options: options
-        ) { result, _ in
-            
-            DispatchQueue.main.async {
-                if let result = result {
-                    ImageCache.shared.setImage(result, for: self.asset.phasset.localIdentifier)
-                    self.image = result
-                    print("=== fetched from Photos")
-                }
-            }
-        }
-    }
-    private var positionIndex: Int? {
-        guard let position = selectedIndices.firstIndex(of: index) else {
-            return nil
-        }
-        return position + 1
-    }
-    private func toggleSelection() {
-        if isSelected {
-            selectedIndices.removeAll(where: { $0 == index })
-        } else {
-            selectedIndices.append(index)
-        }
-    }
     /* MARK: try this later
     // Fetch an image or video data for a given PHAsset
     func fetchMediaData(for asset: PHAsset, completion: @escaping (Result<Data, Error>) -> Void) {

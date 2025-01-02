@@ -30,6 +30,7 @@
 		E1758FBE2D1CE1720018A74B /* color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1758FBD2D1CE1720018A74B /* color.xcassets */; };
 		E1758FDF2D1D1C8F0018A74B /* PickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1758FDE2D1D1C8F0018A74B /* PickerModel.swift */; };
 		E1758FE12D1D1CF50018A74B /* PickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1758FE02D1D1CF50018A74B /* PickerViewModel.swift */; };
+		E18FD5F12D25FE7100BAC7B3 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18FD5F02D25FE7100BAC7B3 /* AsyncImage.swift */; };
 		E1BDB2DC2D1DD1D70007F1E8 /* PickerDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BDB2DB2D1DD1D70007F1E8 /* PickerDataService.swift */; };
 		E1BFDFE32D20EB0D006A55D5 /* EditingToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BFDFE22D20EB0D006A55D5 /* EditingToolbarView.swift */; };
 		E1E0FF3A2D1B94040059AAEB /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E0FF392D1B94040059AAEB /* LibraryView.swift */; };
@@ -62,6 +63,7 @@
 		E1758FBD2D1CE1720018A74B /* color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = color.xcassets; sourceTree = "<group>"; };
 		E1758FDE2D1D1C8F0018A74B /* PickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerModel.swift; sourceTree = "<group>"; };
 		E1758FE02D1D1CF50018A74B /* PickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewModel.swift; sourceTree = "<group>"; };
+		E18FD5F02D25FE7100BAC7B3 /* AsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		E1BDB2DB2D1DD1D70007F1E8 /* PickerDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerDataService.swift; sourceTree = "<group>"; };
 		E1BFDFE22D20EB0D006A55D5 /* EditingToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingToolbarView.swift; sourceTree = "<group>"; };
 		E1E0FF392D1B94040059AAEB /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				E1758FE02D1D1CF50018A74B /* PickerViewModel.swift */,
 				E11FC5792D1A4A5B0051D2F3 /* CustomPicker.swift */,
 				E1ECCC3C2D221B58006A4E1A /* CustomCellViewAsync.swift */,
+				E18FD5F02D25FE7100BAC7B3 /* AsyncImage.swift */,
 				E11FC57B2D1B37690051D2F3 /* CustomSegmentedControl.swift */,
 				E11FC5732D1A366D0051D2F3 /* CircleButtonView.swift */,
 				E12519B12D1F247E00AD69B2 /* PickerConstants.swift */,
@@ -321,6 +324,7 @@
 				E12519B22D1F247F00AD69B2 /* PickerConstants.swift in Sources */,
 				E11FC5812D1B444B0051D2F3 /* ShareableRealmDB.swift in Sources */,
 				E12519B62D1FAB9200AD69B2 /* DatabaseViewModel.swift in Sources */,
+				E18FD5F12D25FE7100BAC7B3 /* AsyncImage.swift in Sources */,
 				E1E0FF3A2D1B94040059AAEB /* LibraryView.swift in Sources */,
 				E12519C82D1FDAFD00AD69B2 /* CustomModifiers.swift in Sources */,
 				E12519AE2D1F1D1200AD69B2 /* RealmDatabase.swift in Sources */,
@@ -458,7 +462,7 @@
 				DEVELOPMENT_TEAM = GBN66X758Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Version_1_0;
+				INFOPLIST_KEY_CFBundleDisplayName = Version_1_1;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Tezza would like to access you camera library";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Tezza would like to acces your photo library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -493,7 +497,7 @@
 				DEVELOPMENT_TEAM = GBN66X758Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Version_1_0;
+				INFOPLIST_KEY_CFBundleDisplayName = Version_1_1;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Tezza would like to access you camera library";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Tezza would like to acces your photo library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

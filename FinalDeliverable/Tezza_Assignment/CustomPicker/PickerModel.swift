@@ -31,7 +31,7 @@ enum AssetType : Int {
     }
 }
 
-struct AssetItem : Identifiable {
+struct AssetItem : Identifiable, Hashable {
     //let id: String = UUID().uuidString
     let id: Int
     let phasset:PHAsset

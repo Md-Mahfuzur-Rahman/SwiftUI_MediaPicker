@@ -14,6 +14,8 @@ import Photos
 
 class PickerViewModel: ObservableObject {
     @Published var mediaItems: [AssetItem] = []
+    @Published var selectedItems: Set<AssetItem> = []
+    @Published var selectedIndices: [Int] = []
     
     private var dataService = FetchMediaDataServiceLocal()
     private var cancellables = Set<AnyCancellable>()
@@ -39,6 +41,24 @@ class PickerViewModel: ObservableObject {
                 self?.mediaItems = assetItems
             })
             .store(in: &cancellables)
+    }
+    func toggleSelection(_ index:Int)  {
+        var item = mediaItems[index]
+        if selectedItems.contains(item) {
+            selectedItems.remove(item)
+            selectedIndices.removeAll { $0 == index }
+        } else {
+            selectedItems.insert(item)
+            //selected = true
+            selectedIndices.append(index)
+        }
+        //print("=== selectedIndices = \(selectedIndices)")
+    }
+    func getPositionIndex(_ index: Int) -> Int? {
+        guard let position = selectedIndices.firstIndex(of: index) else {
+            return nil
+        }
+        return position + 1
     }
 
 }
