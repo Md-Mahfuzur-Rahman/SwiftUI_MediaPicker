@@ -29,7 +29,7 @@ class SavedAsset: Object {
 //-----------------------------
 //MARK: Separate MediaItem, one for Photo and one for Video
 //
-struct MediaItem: Identifiable {
+struct MediaItem: Identifiable , Hashable{
     let id :String                  
     let filePath: URL
     let mediaType: AssetType

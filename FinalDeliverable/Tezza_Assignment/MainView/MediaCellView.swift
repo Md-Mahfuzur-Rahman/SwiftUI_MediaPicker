@@ -31,7 +31,8 @@ struct MediaCellView: View {
                 }
             }
         }
-        .frame(height: calculateCellHeight(for: media))
+        //.frame(height: calculateCellHeight(for: media))
+        .frame(width: (CommonConstants.screenWidth/2)-20 )
         .cornerRadius(10)
         .shadow(color: .black.opacity(0.2), radius: 4, x: 2, y: 2)
         .overlay(content: {
