@@ -28,6 +28,7 @@ struct CustomCellViewAsync: View {
                             .stroke(isSelected ? Color.theme.dardred : Color.clear, lineWidth: 5)
                     )
                     .cornerRadius(5)
+                    .allowsHitTesting(false)
             } else {
                 ProgressView()
             }
@@ -69,7 +70,9 @@ struct CustomCellViewAsync: View {
                             .padding(5)
                     }
                 }
+                .allowsHitTesting(false)
             }
+            .allowsHitTesting(false)
             .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
         }
         .background(Color.blue )
