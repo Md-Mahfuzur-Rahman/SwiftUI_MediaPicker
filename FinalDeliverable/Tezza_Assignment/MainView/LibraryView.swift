@@ -17,15 +17,22 @@ struct LibraryView: View {
     @State private var selectedCellIDs = Set<String>()
     
     var selectedItems: (Set<String>) -> Void
-    //let columns = [
-      //  GridItem(.adaptive(minimum: 100), spacing: 10) // Adaptive grid for variable sizes
-    //]
+
     let columns = 2
-    // Divide photos into multiple columns
+    // Divide media into 2 columns
     private var columnedMediaItems: [[MediaItem]] {
         var columnsArray = Array(repeating: [MediaItem](), count: columns)
-        for (index, mediaItem) in vmDB.mediaItems.enumerated() {
-            columnsArray[index % columns].append(mediaItem)
+        var columnHeights = Array(repeating: 0.0, count: columns) // Keeps track of the height sum of each column
+        
+        for mediaItem in vmDB.mediaItems {
+            guard let image = mediaItem.image else { continue }
+            let aspectRatio = image.size.height / image.size.width
+            
+            // Find the column with the least height
+            if let shortestColumnIndex = columnHeights.enumerated().min(by: { $0.element < $1.element })?.offset {
+                columnsArray[shortestColumnIndex].append(mediaItem)
+                columnHeights[shortestColumnIndex] += aspectRatio
+            }
         }
         return columnsArray
     }

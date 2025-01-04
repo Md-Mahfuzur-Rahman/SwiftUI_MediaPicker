@@ -13,12 +13,12 @@ struct MediaDetailContentView: View {
 
     var body: some View {
         ZStack {
-            if let image = mediaItem.image {
+            if mediaItem.mediaType.isPhotoType, let image = mediaItem.image {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .ignoresSafeArea()
-            } else if (mediaItem.mediaType == .video)  {
+            } else if (mediaItem.mediaType.isVideoType)  {
                 LoopingVideoPlayerView(videoURL: mediaItem.filePath)
                     .ignoresSafeArea()
             } else {

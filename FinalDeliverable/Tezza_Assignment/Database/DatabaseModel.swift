@@ -29,13 +29,13 @@ class SavedAsset: Object {
 //-----------------------------
 //MARK: Separate MediaItem, one for Photo and one for Video
 //
-struct MediaItem: Identifiable , Hashable{
+struct MediaItem: Identifiable, Hashable{
     let id :String                  
     let filePath: URL
     let mediaType: AssetType
     var avAsset: AVAsset? = nil // Optional since not all items may be videos
     var image: UIImage? = nil
-    var thumbnail: UIImage? = nil
+    //var thumbnail: UIImage? = nil
     var savedDate:Date?
     
     init(id:String, filePath: URL, mediaType: AssetType, avAsset: AVAsset? = nil,
@@ -45,7 +45,7 @@ struct MediaItem: Identifiable , Hashable{
         self.mediaType = mediaType
         self.avAsset = avAsset
         self.image = image
-        self.thumbnail = thumbnail
+        //self.thumbnail = thumbnail
         self.savedDate = savedDate
         
         let type = mediaType
@@ -60,7 +60,7 @@ struct MediaItem: Identifiable , Hashable{
         if avAsset == nil && type.isVideoType {
             let avAsset = AVAsset(url: filePath)
             self.avAsset = avAsset
-            self.thumbnail = avAsset.generateThumbnail()
+            self.image = avAsset.generateThumbnail()
         }
     }
 }
