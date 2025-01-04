@@ -19,9 +19,9 @@ struct MediaCellView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
-            } else if media.mediaType.isVideoType, let thumbnail = media.thumbnail {
+            } else if media.mediaType.isVideoType, let image = media.image {
                 ZStack {
-                    Image(uiImage: thumbnail)
+                    Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
                     Image(systemName: "play.circle.fill")

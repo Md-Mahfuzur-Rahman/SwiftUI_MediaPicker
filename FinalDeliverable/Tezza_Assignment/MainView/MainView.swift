@@ -29,9 +29,10 @@ struct MainView: View {
                         selectedItems = selItems
                         enableEditingButtons = selectedItems.count > 0 ? true : false
                     })
-                    .background(Color.theme.grayLight)
-
+                    .background(Color.theme.brown)
+                    
                     Spacer()
+                    Divider()
                     HStack {
                         if ( vmDB.mediaItems.count > 0) {
                             EditingToolbarView(bEnableButtons: $enableEditingButtons, onButtonTap: { button in
