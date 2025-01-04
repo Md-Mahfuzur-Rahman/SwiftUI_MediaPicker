@@ -36,7 +36,7 @@ struct CommonConstants{
     static let importText = "IMPORT YOUR MEDIA"
     
     static let permissionDenied = "Permission denied please go to settings and fix it."
-    
+    static let screenWidth = UIScreen.main.bounds.width
 }
 
 enum RealmError: Error {
