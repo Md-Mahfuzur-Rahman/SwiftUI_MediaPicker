@@ -15,7 +15,6 @@ import Combine
 struct CustomMediaPicker: View {
     @EnvironmentObject var vmDB:DatabaseViewModel
     @StateObject private var vm = PickerViewModel()
-    @State private var selectedIndices: [Int] = [] // do not use Set here
     @State var category:MediaCategory = .all
     @Binding var isPresented: Bool
 
@@ -47,7 +46,7 @@ struct CustomMediaPicker: View {
                     CircleButtonView(iconName: "checkmark", colorBack: Color.clear, colorFore: Color.black)
                         .padding(4)
                         .onTapGesture {
-                            let items = selectedIndices.map {  vm.mediaItems[$0] } // add all  selected items
+                            let items = vm.selectedIndices.map {  vm.mediaItems[$0] } // add all  selected items
                             /* let items = selectedIDs.map({ strOneID -> AssetItem? in
                                 if let item = vm.mediaItems.first(where: { assetItem in
                                     assetItem.id == strOneID
@@ -71,14 +70,19 @@ struct CustomMediaPicker: View {
                     
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 5) {
-                    //LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 3), spacing: 5) {
-                        ForEach(vm.mediaItems) { asset in
-                            if shouldShowCell(for: asset){
-                                CustomCellViewAsync(asset: asset,
-                                                    index: asset.id,
-                                                    selectedIndices: $selectedIndices )
+                        ForEach(0..<vm.mediaItems.count, id: \.self) { index in
+                            if shouldShowCell(for: vm.mediaItems[index]){
+                                CustomCellViewAsync(asset: vm.mediaItems[index],
+                                                    selectedIndex: vm.getPositionIndex(index),   // asset.id,
+                                                    isSelected: vm.selectedIndices.contains(index)
+                                                    )
+                                                    //selectedIndices: $vm.selectedIndices )
                                 .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
                                 .cornerRadius(5)
+                                .contentShape(Rectangle())  // Ensures entire cell is tappable
+                                .onTapGesture {
+                                    vm.toggleSelection( index )
+                                }
                             }
                         }
                     }

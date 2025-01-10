@@ -10,84 +10,76 @@ import Photos
 
 struct CustomCellViewAsync: View {
     let asset: AssetItem
-    let index: Int
-    @Binding var selectedIndices: [Int]
-    //@Binding var selectedIDs: [String] // Use String for tracking unique IDs
     @State private var image: UIImage? = nil
-        
+    let selectedIndex: Int?
+    var isSelected: Bool
+
     var body: some View {
-        ZStack() {
-            if let image = image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
-                    .clipped()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(isSelected ? Color.theme.dardred : Color.clear, lineWidth: 5)
-                    )
-                    .cornerRadius(5)
-                    .allowsHitTesting(false)
-            } else {
-                ProgressView()
-            }
-            HStack {
-                VStack {
-                    if let count = positionIndex {
-                        Text("\(count)")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                            .frame(width: PickerConstants.infoW, height: PickerConstants.infoH)
-                            .background(Circle().fill(Color.theme.lightred))
-                            .overlay(
+        GeometryReader { geometry in
+            //print("=== View Size: \(geometry.size.width) x \(geometry.size.height) ")
+            ZStack() {
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
+                        .clipped()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(isSelected ? Color.theme.dardred : Color.clear, lineWidth: 5)
+                        )
+                        .cornerRadius(5)
+                        .allowsHitTesting(false)
+                } else {
+                    ProgressView()
+                }
+                HStack {
+                    VStack {
+                        if let count = selectedIndex {
+                            Text("\(count)")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                                .frame(width: PickerConstants.infoW, height: PickerConstants.infoH)
+                                .background(Circle().fill(Color.theme.lightred))
+                                .overlay(
                                     Circle().stroke(Color.white, lineWidth: 1)
                                 )
-                            .padding(5)
+                                .padding(5)
+                        }
+                        Spacer()
                     }
                     Spacer()
-                }
-                Spacer()
-                
-                VStack(){
-                    if asset.assetType != .photo {
-                        Image(uiImage: getUIImage(assetType: asset.assetType) ?? UIImage() )
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: PickerConstants.imgW, height: PickerConstants.imgH, alignment: .trailing)
-                            //.scaledToFit()
-                            .foregroundColor(Color.white)
-                            .padding(5)
-                            .shadow(color: .black, radius: 10, x: 0, y: 0) //***: cornerRadius will be before shadow()
+                    
+                    VStack(){
+                        if asset.assetType != .photo {
+                            Image(uiImage: getUIImage(assetType: asset.assetType) ?? UIImage() )
+                                .renderingMode(.template)
+                                .resizable()
+                                .frame(width: PickerConstants.imgW, height: PickerConstants.imgH, alignment: .trailing)
+                                //.scaledToFit()
+                                .foregroundColor(Color.white)
+                                .padding(5)
+                                .shadow(color: .black, radius: 10, x: 0, y: 0) //***: (1) cornerRadius will be before (2) shadow()
+                        }
+                        Spacer()
+                        if asset.assetType == .video {
+                            Text(asset.phasset.duration.formatDuration())
+                                .font(.caption2)
+                                .foregroundColor(Color.white)
+                                .frame(width: PickerConstants.infoW+10, height: PickerConstants.infoH, alignment: .center)
+                                .shadow(color: .black, radius: 10) //***: (1) cornerRadius will be before (2) shadow()
+                                .padding(5)
+                        }
                     }
-                    Spacer()
-                    if asset.assetType == .video {
-                        Text(asset.phasset.duration.formatDuration())
-                            .font(.caption2)
-                            .foregroundColor(Color.white)
-                            .frame(width: PickerConstants.infoW+10, height: PickerConstants.infoH, alignment: .center)
-                            .shadow(color: .black, radius: 10) //***: cornerRadius will be before shadow()
-                            .padding(5)
-                    }
                 }
-                .allowsHitTesting(false)
+                //.allowsHitTesting(false)
+                .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
             }
-            .allowsHitTesting(false)
-            .frame(width: PickerConstants.cellWidth, height: PickerConstants.cellWidth)
+            .contentShape(Rectangle())  // Ensures entire cell is tappable
+            .onAppear(){
+                fetchThumbnail()
+            }
         }
-        .background(Color.blue )
-        .onTapGesture {
-            toggleSelection()
-        }
-        .onAppear(){
-            fetchThumbnail()
-        }
-//        .task {
-//            await fetchThumbnailAsync()
-//        }
-    }
-    var isSelected: Bool {
-        selectedIndices.contains(index)
     }
     private func fetchThumbnail() {
         if let cachedImage = ImageCache.shared.getImage(for: asset.phasset.localIdentifier) {
@@ -111,22 +103,9 @@ struct CustomCellViewAsync: View {
                 if let result = result {
                     ImageCache.shared.setImage(result, for: self.asset.phasset.localIdentifier)
                     self.image = result
-                    print("=== fetched from Photos")
+                    //print("=== fetched from Photos")
                 }
             }
-        }
-    }
-    private var positionIndex: Int? {
-        guard let position = selectedIndices.firstIndex(of: index) else {
-            return nil
-        }
-        return position + 1
-    }
-    private func toggleSelection() {
-        if isSelected {
-            selectedIndices.removeAll(where: { $0 == index })
-        } else {
-            selectedIndices.append(index)
         }
     }
     /* MARK: try this later
